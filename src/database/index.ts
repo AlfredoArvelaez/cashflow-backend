@@ -1,13 +1,20 @@
 import { Sequelize } from 'sequelize'
-import databaseConfig from './config'
 
-const db = new Sequelize(databaseConfig)
-
-export const connectToDatabase = async () => {
-  try {
-    await db.authenticate()
-    console.log('Database connection successful')
-  } catch (err) {
-    console.log(err)
+const databaseConfig: any = {
+  database: process.env.POSTGRES_DATABASE,
+  username: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
+  host: process.env.POSTGRES_HOST,
+  logging: false,
+  dialect: 'postgres',
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false
+    }
   }
 }
+
+const database = new Sequelize(databaseConfig)
+
+export default database
