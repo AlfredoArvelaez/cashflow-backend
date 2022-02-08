@@ -15,6 +15,9 @@ const databaseConfig: any = {
   }
 }
 
-const database = new Sequelize(databaseConfig)
+const database = new Sequelize(databaseConfig);
+(async () => {
+  await database.sync({ alter: true })
+})()
 
 export default database
