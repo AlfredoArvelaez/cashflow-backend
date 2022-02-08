@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize'
 import database from '..'
+import { Transaction } from '../Transaction'
 
 const User = database.define('User', {
   id: {
@@ -30,13 +31,11 @@ const User = database.define('User', {
   },
 
   createdAt: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     defaultValue: DataTypes.NOW
-  },
-
-  transactions: {
-    type: DataTypes.ARRAY(DataTypes.STRING)
   }
 })
+
+User.hasMany(Transaction)
 
 export { User }
