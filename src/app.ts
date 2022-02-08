@@ -1,13 +1,12 @@
-import express from 'express'
+import express, { Application } from 'express'
+import { connectToDatabase } from './database'
+import API_ROUTES from './routes'
 
-const app = express()
+const app: Application = express()
+connectToDatabase()
 
-app.get('/', (req, res) => {
-  res.send('Hello')
-})
+app.use(express.json())
+// ROUTES
+app.use('/api/v1', API_ROUTES)
 
-export const initializeApp = (port: number) => {
-  app.listen(port, () => {
-    console.log(`App listening at port ${port}`)
-  })
-}
+export default app

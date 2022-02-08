@@ -3,10 +3,10 @@ import databaseConfig from './config'
 
 const db = new Sequelize(databaseConfig)
 
-export const connectToDatabase = async (): Promise<void> => {
+export const connectToDatabase = async () => {
   try {
     await db.authenticate()
-    console.log('Database connected')
+    console.log('Database connection successful')
   } catch (err) {
     console.log(err)
   }
