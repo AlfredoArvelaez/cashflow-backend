@@ -1,7 +1,19 @@
-import { CreateUserDTO } from '../models/CreateUserDto'
+import { compare } from 'bcrypt'
+import { CreateUserDTO } from '../core/dtos/CreateUserDto'
 import { usersService } from './'
 
 // Auth services will be managing the user authentication, authorization and resgistration
+const signIn = async (email: string, password: string) => {
+  try {
+    const fetchedUser = await usersService.getUserByEmail(email)
+
+    if (fetchedUser && await compare(password, fetchedUser.password)) { return fetchedUser }
+
+    return null
+  } catch (err) {
+    console.log(err)
+  }
+}
 
 const signUp = (data: CreateUserDTO) => {
   // Create user
@@ -11,5 +23,6 @@ const signUp = (data: CreateUserDTO) => {
 }
 
 export const authService = {
+  signIn,
   signUp
 }

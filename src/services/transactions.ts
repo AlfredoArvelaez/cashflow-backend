@@ -1,5 +1,5 @@
-import { database } from '../utils/databaseClient'
-import { CreateTransactionDTO } from '../models/CreateTransactionDTO'
+import { database } from '../core/database'
+import { CreateTransactionDTO } from '../core/dtos/CreateTransactionDTO'
 import { usersService } from './users'
 
 const getUserTransactions = (userId: number) => {

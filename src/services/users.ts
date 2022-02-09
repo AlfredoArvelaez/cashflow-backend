@@ -1,12 +1,16 @@
 import { hash } from 'bcrypt'
-import { database } from '../utils/databaseClient'
-import { CreateUserDTO } from '../models/CreateUserDto'
+import { database } from '../core/database'
+import { CreateUserDTO } from '../core/dtos/CreateUserDto'
 
 const getUser = (id: number) => {
   return database.user.findUnique({
     where: { id },
     include: { transactions: true }
   })
+}
+
+const getUserByEmail = (email: string) => {
+  return database.user.findUnique({ where: { email }, include: { transactions: true } })
 }
 
 const createUser = async (data: CreateUserDTO) => {
@@ -27,5 +31,6 @@ const createUser = async (data: CreateUserDTO) => {
 
 export const usersService = {
   getUser,
+  getUserByEmail,
   createUser
 }
