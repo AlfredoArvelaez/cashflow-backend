@@ -1,5 +1,5 @@
 import { CreateUserDTO } from '../models/CreateUserDto'
-import { usersService } from './users'
+import { usersService } from './'
 
 // Auth services will be managing the user authentication, authorization and resgistration
 

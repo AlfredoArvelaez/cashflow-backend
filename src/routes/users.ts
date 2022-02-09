@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { HttpApiResponse } from '../interfaces'
-import { usersService } from '../services/users'
+import { usersService } from '../services'
 
 const router = Router()
 
