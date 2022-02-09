@@ -3,8 +3,7 @@ import { database } from '../utils/databaseClient'
 
 const signUp = async (data: CreateUserDTO) => {
   try {
-    const newUser = await database.user.create({ data })
-    return newUser
+    return await database.user.create({ data })
   } catch (err) {
     console.log(err)
   }
