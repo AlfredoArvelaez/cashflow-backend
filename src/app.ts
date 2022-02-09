@@ -1,9 +1,7 @@
 import express, { Application } from 'express'
-import { connectToDatabase } from './database/connect'
 import API_ROUTES from './routes'
 
 const app: Application = express()
-connectToDatabase()
 
 app.use(express.json())
 // ROUTES
