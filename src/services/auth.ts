@@ -1,12 +1,13 @@
 import { CreateUserDTO } from '../models/CreateUserDto'
-import { database } from '../utils/databaseClient'
+import { usersService } from './users'
 
-const signUp = async (data: CreateUserDTO) => {
-  try {
-    return await database.user.create({ data })
-  } catch (err) {
-    console.log(err)
-  }
+// Auth services will be managing the user authentication, authorization and resgistration
+
+const signUp = (data: CreateUserDTO) => {
+  // Create user
+  return usersService.createUser(data)
+
+  // TODO handle the authentication and return jwt
 }
 
 export const authService = {
