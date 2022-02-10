@@ -5,16 +5,19 @@ import { usersService } from './'
 
 // Auth services will be managing the user authentication, authorization and resgistration
 const signIn = async (email: string, password: string) => {
-  try {
-    const fetchedUser = await usersService.getUserByEmail(email)
-    if (fetchedUser && await compare(password, fetchedUser.password)) {
-      const token = signToken({ userId: fetchedUser.id })
+  const fetchedUser = await usersService.getUserByEmail(email)
 
-      return token
-    }
-  } catch (err) {
-    console.log(err)
+  if (!fetchedUser) {
+    return null
   }
+
+  if (!await compare(password, fetchedUser.password)) {
+    return null
+  }
+
+  const token = signToken({ userId: fetchedUser.id })
+
+  return token
 }
 
 const signUp = (data: CreateUserDTO) => {

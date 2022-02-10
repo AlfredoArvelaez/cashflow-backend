@@ -1,22 +1,26 @@
 import { Router } from 'express'
-import { HttpResponseInterface } from '../core/interfaces'
 import { CreateUserDTO } from '../core/dtos/CreateUserDto'
 import { authService } from '../services'
+import { HttpResponse } from '../core/classes'
+import { InvalidCredentialsError } from '../core/errors'
 
 const router = Router()
 
 router.post('/signIn', async (req, res, next) => {
   const { email, password } = req.body
 
-  const token = await authService.signIn(email, password)
+  try {
+    const token = await authService.signIn(email, password)
 
-  const response: HttpResponseInterface = {
-    statusCode: 200,
-    description: 'Sign in successful',
-    data: { token }
+    if (!token) {
+      throw new InvalidCredentialsError()
+    }
+
+    const response = new HttpResponse({ statusCode: 200, description: 'Sign in successful', data: { token } }, res)
+    response.send()
+  } catch (err) {
+    next(err)
   }
-
-  res.status(200).json(response)
 })
 
 router.post('/signUp', async (req, res, next) => {
@@ -24,13 +28,13 @@ router.post('/signUp', async (req, res, next) => {
 
   try {
     const userData = await authService.signUp({ firstName, lastName, email, password })
-    const response: HttpResponseInterface = {
+    const response = new HttpResponse({
       statusCode: 200,
       description: 'User signed up and logged in successfully',
       data: userData
-    }
+    }, res)
 
-    res.status(200).json(response)
+    response.send()
   } catch (err) {
     next(err)
   }
