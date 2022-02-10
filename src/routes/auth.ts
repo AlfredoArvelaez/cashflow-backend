@@ -8,12 +8,12 @@ const router = Router()
 router.post('/signIn', async (req, res, next) => {
   const { email, password } = req.body
 
-  const user = await authService.signIn(email, password)
+  const token = await authService.signIn(email, password)
 
   const response: HttpResponseInterface = {
     statusCode: 200,
-    description: 'User found',
-    data: user
+    description: 'Sign in successful',
+    data: { token }
   }
 
   res.status(200).json(response)

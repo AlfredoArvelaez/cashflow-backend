@@ -1,15 +1,17 @@
 import { compare } from 'bcrypt'
 import { CreateUserDTO } from '../core/dtos/CreateUserDto'
+import { signToken } from '../utils/jwt'
 import { usersService } from './'
 
 // Auth services will be managing the user authentication, authorization and resgistration
 const signIn = async (email: string, password: string) => {
   try {
     const fetchedUser = await usersService.getUserByEmail(email)
+    if (fetchedUser && await compare(password, fetchedUser.password)) {
+      const token = signToken({ userId: fetchedUser.id })
 
-    if (fetchedUser && await compare(password, fetchedUser.password)) { return fetchedUser }
-
-    return null
+      return token
+    }
   } catch (err) {
     console.log(err)
   }

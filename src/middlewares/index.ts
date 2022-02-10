@@ -1,9 +1,9 @@
 import { errorHandler } from './errorHandler'
 import { errorLogger } from './errorLogger'
-import { attachUserIdMiddleware } from './attachUserId'
+import { authenticate } from './authenticate'
 
 export {
   errorHandler,
   errorLogger,
-  attachUserIdMiddleware
+  authenticate
 }
