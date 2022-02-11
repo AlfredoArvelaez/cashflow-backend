@@ -1,18 +1,16 @@
+import { User } from '@prisma/client'
 import { compare } from 'bcrypt'
 import { CreateUserDTO } from '../core/dtos/CreateUserDto'
+import { InvalidCredentialsError } from '../core/errors'
 import { signToken } from '../utils/jwt'
 import { usersService } from './'
 
 // Auth services will be managing the user authentication, authorization and resgistration
 const signIn = async (email: string, password: string) => {
-  const fetchedUser = await usersService.getUserByEmail(email)
+  const fetchedUser: User | null = await usersService.getUserByEmail(email)
 
-  if (!fetchedUser) {
-    return null
-  }
-
-  if (!await compare(password, fetchedUser.password)) {
-    return null
+  if (!fetchedUser || !await compare(password, fetchedUser.password)) {
+    throw new InvalidCredentialsError()
   }
 
   const token = signToken({ userId: fetchedUser.id })
@@ -20,11 +18,11 @@ const signIn = async (email: string, password: string) => {
   return token
 }
 
-const signUp = (data: CreateUserDTO) => {
-  // Create user
-  return usersService.createUser(data)
+const signUp = async ({ firstName, lastName, email, password }: CreateUserDTO) => {
+  const newUserData = await usersService.createUser({ firstName, lastName, email, password })
+  const token = signToken({ userId: newUserData?.id })
 
-  // TODO handle the authentication and return jwt
+  return { user: newUserData, token }
 }
 
 export const authService = {

@@ -1,4 +1,4 @@
-import { CustomError } from '.'
+import { CustomError } from './CustomError'
 
 export class InvalidCredentialsError extends CustomError {
   constructor () {
