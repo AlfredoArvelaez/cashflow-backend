@@ -4,51 +4,53 @@ import { database } from '../core/database'
 import { CreateUserDTO } from '../core/dtos/CreateUserDto'
 import { EmailAlreadyRegisteredError } from '../core/errors'
 
-const getUser = (id: number) => {
+const getById = (id: number) => {
   return database.user.findUnique({
     where: { id },
-    include: { transactions: true }
+    select: {
+      id: true,
+      firstName: true,
+      lastName: true,
+      email: true,
+      transactions: true
+    }
   })
 }
 
-const getUserByEmail = (email: string) => {
+const getByEmail = (email: string) => {
   return database.user.findUnique({ where: { email }, include: { transactions: true } })
 }
 
-const createUser = async (data: CreateUserDTO) => {
-  try {
-    const userAlreadyExists: User | null = await usersService.getUserByEmail(data.email)
+const create = async (data: CreateUserDTO) => {
+  const userAlreadyExists: User | null = await usersService.getByEmail(data.email)
 
-    if (userAlreadyExists) {
-      throw new EmailAlreadyRegisteredError(data.email)
-    }
-
-    const { password, ...rest } = data
-    const passwordHash = await hash(password, 10)
-
-    const newUserData: CreateUserDTO = {
-      ...rest,
-      password: passwordHash
-    }
-
-    return database.user.create(
-      {
-        data: newUserData,
-        select: {
-          id: true,
-          firstName: true,
-          lastName: true,
-          email: true,
-          transactions: true
-        }
-      })
-  } catch (err) {
-    console.log(err)
+  if (userAlreadyExists) {
+    throw new EmailAlreadyRegisteredError(data.email)
   }
+
+  const { password, ...rest } = data
+  const passwordHash = await hash(password, 10)
+
+  const newUserData: CreateUserDTO = {
+    ...rest,
+    password: passwordHash
+  }
+
+  return database.user.create(
+    {
+      data: newUserData,
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        transactions: true
+      }
+    })
 }
 
 export const usersService = {
-  getUser,
-  getUserByEmail,
-  createUser
+  getById,
+  getByEmail,
+  create
 }

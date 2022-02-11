@@ -1,13 +1,42 @@
+import { usersService } from '.'
 import { database } from '../core/database'
 import { CreateTransactionDTO } from '../core/dtos/CreateTransactionDTO'
-import { usersService } from './users'
+import { UpdateTransactionDto } from '../core/dtos/UpdateTransactionDto'
+import { NotFoundError } from '../core/errors'
 
-const getUserTransactions = (userId: number) => {
-  return usersService.getUser(userId).then(data => data?.transactions)
+const getAll = (userId: number) => {
+  return database.transaction.findMany({ where: { userId } })
 }
 
-const createTransaction = (transactionData: CreateTransactionDTO) => {
-  return database.transaction.create({ data: transactionData })
+const createOne = (transactionData: CreateTransactionDTO) => {
+  return database.transaction.create({
+    data: transactionData,
+    select: {
+      id: true,
+      description: true,
+      amount: true,
+      date: true,
+      type: true
+    }
+  })
 }
 
-export const transactionsService = { getUserTransactions, createTransaction }
+const updateOne = async (transactionData: UpdateTransactionDto, transactionId: number, userId: number) => {
+  const currentUser = await usersService.getById(userId)
+  const transactionExists = currentUser!.transactions.some(trans => trans.id === transactionId)
+
+  if (!transactionExists) throw new NotFoundError('Transaction')
+
+  return database.transaction.update({ data: transactionData, where: { id: transactionId } })
+}
+
+const deleteOne = async (transactionId: number, userId: number) => {
+  const currentUser = await usersService.getById(userId)
+  const transactionExists = currentUser!.transactions.some(trans => trans.id === transactionId)
+
+  if (!transactionExists) throw new NotFoundError('Transaction')
+
+  return database.transaction.delete({ where: { id: transactionId } })
+}
+
+export const transactionsService = { getAll, createOne, deleteOne, updateOne }

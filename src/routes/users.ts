@@ -9,7 +9,7 @@ router.get('/', async (req, res, next) => {
   const userId = req.userId
 
   try {
-    const user = await usersService.getUser(userId)
+    const user = await usersService.getById(userId)
 
     if (!user) {
       throw new NotFoundError('User')
