@@ -3,7 +3,7 @@ enum TRANSACTION_TYPES { // eslint-disable-line
   EXPENSES = 'EXPENSES' // eslint-disable-line
 }
 
-export interface CreateTransactionDTO {
+export interface CreateTransactionDto {
   description: string,
   amount: number,
   date: Date,

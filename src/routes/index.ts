@@ -1,8 +1,8 @@
 import { Router } from 'express'
+import { authenticate } from 'middlewares'
 import authRoutes from './auth'
 import usersRoutes from './users'
 import transactionsRoutes from './transactions'
-import { authenticate } from '../middlewares'
 
 const router = Router()
 

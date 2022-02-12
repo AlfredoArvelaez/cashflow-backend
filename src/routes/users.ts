@@ -1,7 +1,7 @@
 import { Router } from 'express'
-import { usersService } from '../services'
-import { HttpResponseInterface } from '../core/interfaces'
-import { NotFoundError } from '../core/errors'
+import { usersService } from 'services'
+import { HttpResponseInterface } from '@core/interfaces'
+import { NotFoundError } from '@core/errors'
 
 const router = Router()
 

@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
-import { InvalidTokenError } from '../core/errors'
-import { AuthHeaderNotSentError } from '../core/errors/AuthHeaderNotSentError'
-import { verifyToken } from '../utils/jwt'
+import { InvalidTokenError, AuthHeaderNotSentError } from '@core/errors'
+import { verifyToken } from 'utils/jwt'
 
 export const authenticate = async (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization

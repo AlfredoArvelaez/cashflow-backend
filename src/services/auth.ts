@@ -1,8 +1,8 @@
 import { User } from '@prisma/client'
 import { compare } from 'bcrypt'
-import { CreateUserDTO } from '../core/dtos/CreateUserDto'
-import { InvalidCredentialsError } from '../core/errors'
-import { signToken } from '../utils/jwt'
+import { signToken } from 'utils/jwt'
+import { CreateUserDto } from '@core/dtos'
+import { InvalidCredentialsError } from '@core/errors'
 import { usersService } from './'
 
 // Auth services will be managing the user authentication, authorization and resgistration
@@ -18,7 +18,7 @@ const signIn = async (email: string, password: string) => {
   return token
 }
 
-const signUp = async ({ firstName, lastName, email, password }: CreateUserDTO) => {
+const signUp = async ({ firstName, lastName, email, password }: CreateUserDto) => {
   const newUserData = await usersService.create({ firstName, lastName, email, password })
   const token = signToken({ userId: newUserData?.id })
 

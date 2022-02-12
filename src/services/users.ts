@@ -1,8 +1,8 @@
 import { User } from '@prisma/client'
 import { hash } from 'bcrypt'
-import { database } from '../core/database'
-import { CreateUserDTO } from '../core/dtos/CreateUserDto'
-import { EmailAlreadyRegisteredError } from '../core/errors'
+import { database } from '@core/database'
+import { CreateUserDto } from '@core/dtos'
+import { EmailAlreadyRegisteredError } from '@core/errors'
 
 const getById = (id: number) => {
   return database.user.findUnique({
@@ -21,7 +21,7 @@ const getByEmail = (email: string) => {
   return database.user.findUnique({ where: { email }, include: { transactions: true } })
 }
 
-const create = async (data: CreateUserDTO) => {
+const create = async (data: CreateUserDto) => {
   const userAlreadyExists: User | null = await usersService.getByEmail(data.email)
 
   if (userAlreadyExists) {
@@ -31,7 +31,7 @@ const create = async (data: CreateUserDTO) => {
   const { password, ...rest } = data
   const passwordHash = await hash(password, 10)
 
-  const newUserData: CreateUserDTO = {
+  const newUserData: CreateUserDto = {
     ...rest,
     password: passwordHash
   }

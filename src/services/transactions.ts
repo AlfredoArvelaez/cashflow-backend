@@ -1,14 +1,13 @@
 import { usersService } from '.'
-import { database } from '../core/database'
-import { CreateTransactionDTO } from '../core/dtos/CreateTransactionDTO'
-import { UpdateTransactionDto } from '../core/dtos/UpdateTransactionDto'
-import { NotFoundError } from '../core/errors'
+import { database } from '@core/database'
+import { NotFoundError } from '@core/errors'
+import { UpdateTransactionDto, CreateTransactionDto } from '@core/dtos'
 
 const getAll = (userId: number) => {
   return database.transaction.findMany({ where: { userId } })
 }
 
-const createOne = (transactionData: CreateTransactionDTO) => {
+const createOne = (transactionData: CreateTransactionDto) => {
   return database.transaction.create({
     data: transactionData,
     select: {

@@ -1,7 +1,7 @@
 import { Router } from 'express'
-import { CreateUserDTO } from '../core/dtos/CreateUserDto'
-import { authService } from '../services'
-import { HttpResponse } from '../core/classes'
+import { CreateUserDto } from '@core/dtos'
+import { HttpResponse } from '@core/classes'
+import { authService } from 'services'
 const router = Router()
 
 router.post('/signIn', async (req, res, next) => {
@@ -23,7 +23,7 @@ router.post('/signIn', async (req, res, next) => {
 })
 
 router.post('/signUp', async (req, res, next) => {
-  const { firstName, lastName, email, password }: CreateUserDTO = req.body
+  const { firstName, lastName, email, password }: CreateUserDto = req.body
 
   try {
     const { user, token } = await authService.signUp({ firstName, lastName, email, password })

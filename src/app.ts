@@ -1,6 +1,6 @@
 import express, { Application } from 'express'
-import { errorHandler, errorLogger } from './middlewares'
-import API_ROUTES from './routes'
+import { errorHandler, errorLogger } from 'middlewares'
+import API_ROUTES from 'routes'
 const app: Application = express()
 
 app.use(express.json())

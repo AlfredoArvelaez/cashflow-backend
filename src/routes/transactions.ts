@@ -1,8 +1,7 @@
 import { Router } from 'express'
-import { CreateTransactionDTO } from '../core/dtos'
-import { transactionsService } from '../services'
-import { HttpResponse } from '../core/classes'
-import { UpdateTransactionDto } from '../core/dtos/UpdateTransactionDto'
+import { HttpResponse } from '@core/classes'
+import { UpdateTransactionDto, CreateTransactionDto } from '@core/dtos'
+import { transactionsService } from 'services'
 
 const router = Router()
 
@@ -26,10 +25,10 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   const currentUserId = req.userId
-  const { description, amount, type, date }: CreateTransactionDTO = req.body
+  const { description, amount, type, date }: CreateTransactionDto = req.body
 
   try {
-    const transactionData: CreateTransactionDTO = {
+    const transactionData: CreateTransactionDto = {
       description,
       amount,
       type,

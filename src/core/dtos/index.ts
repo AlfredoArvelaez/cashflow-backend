@@ -1,7 +1,9 @@
-import { CreateUserDTO } from './CreateUserDto'
-import { CreateTransactionDTO } from './CreateTransactionDTO'
+import { CreateUserDto } from './CreateUserDto'
+import { UpdateTransactionDto } from './UpdateTransactionDto'
+import { CreateTransactionDto } from './CreateTransactionDto'
 
 export {
-  CreateUserDTO,
-  CreateTransactionDTO
+  CreateUserDto,
+  CreateTransactionDto,
+  UpdateTransactionDto
 }
