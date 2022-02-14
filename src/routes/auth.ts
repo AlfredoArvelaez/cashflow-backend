@@ -1,42 +1,9 @@
 import { Router } from 'express'
-import { CreateUserDto } from '@core/dtos'
-import { HttpResponse } from '@core/classes'
-import { authService } from 'services'
+import { authControllers } from 'controllers'
+import { authValidations } from 'validations'
 const router = Router()
 
-router.post('/signIn', async (req, res, next) => {
-  const { email, password } = req.body
-
-  try {
-    const token = await authService.signIn(email, password)
-
-    const response = new HttpResponse({
-      statusCode: 200,
-      description: 'Sign in successful',
-      data: { token }
-    }, res)
-
-    response.send()
-  } catch (err) {
-    next(err)
-  }
-})
-
-router.post('/signUp', async (req, res, next) => {
-  const { firstName, lastName, email, password }: CreateUserDto = req.body
-
-  try {
-    const { user, token } = await authService.signUp({ firstName, lastName, email, password })
-    const response = new HttpResponse({
-      statusCode: 201,
-      description: 'User signed up and logged in successfully',
-      data: { user, token }
-    }, res)
-
-    response.send()
-  } catch (err) {
-    next(err)
-  }
-})
+router.post('/signIn', authControllers.signIn)
+router.post('/signUp', authValidations.signUp, authControllers.signUp)
 
 export default router
