@@ -25,7 +25,7 @@ const create = async (data: CreateUserDto) => {
   const userAlreadyExists: User | null = await usersService.getByEmail(data.email)
 
   if (userAlreadyExists) {
-    throw new EmailAlreadyRegisteredError(data.email)
+    throw new EmailAlreadyRegisteredError(data.email) // TODO: REFACTOR ERROR
   }
 
   const { password, ...rest } = data

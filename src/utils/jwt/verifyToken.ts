@@ -1,10 +1,10 @@
 import jwt from 'jsonwebtoken'
-import { InvalidTokenError } from '../../core/errors'
+import { UnauthorizedError } from '@core/errors'
 
 export const verifyToken = (token: string): Promise<any> => {
   return new Promise((resolve, reject) => {
     jwt.verify(token, process.env.JWT_SECRET as string, (err, decoded) => {
-      if (err) return reject(new InvalidTokenError())
+      if (err) return reject(new UnauthorizedError('Invalid Token'))
       resolve(decoded)
     })
   })

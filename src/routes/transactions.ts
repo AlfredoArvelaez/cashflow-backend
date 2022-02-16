@@ -1,13 +1,14 @@
 import { Router } from 'express'
 import { transactionsControllers } from 'controllers'
+import { transactionsValidations } from 'validations'
 
 const router = Router()
 
 router.get('/', transactionsControllers.getCurrentUserTransactions)
 
-router.post('/', transactionsControllers.createTransaction)
+router.post('/', transactionsValidations.createTransaction, transactionsControllers.createTransaction)
 
-router.put('/:transactionId', transactionsControllers.updateTransaction)
+router.put('/:transactionId', transactionsValidations.updateTransaction, transactionsControllers.updateTransaction)
 
 router.delete('/:transactionId', transactionsControllers.deleteTransaction)
 

@@ -1,15 +1,13 @@
-import { InvalidTokenError } from './InvalidTokenError'
-import { InvalidCredentialsError } from './InvalidCredentialsError'
+import { UnauthorizedError } from './UnauthorizedError'
+import { BadRequestError } from './BadRequestError'
 import { CustomError } from './CustomError'
 import { NotFoundError } from './NotFoundError'
-import { AuthHeaderNotSentError } from './AuthHeaderNotSentError'
 import { EmailAlreadyRegisteredError } from './EmailAlreadyRegisteredError'
 
 export {
+  BadRequestError,
   CustomError,
   NotFoundError,
-  InvalidTokenError,
-  InvalidCredentialsError,
-  EmailAlreadyRegisteredError,
-  AuthHeaderNotSentError
+  UnauthorizedError,
+  EmailAlreadyRegisteredError
 }

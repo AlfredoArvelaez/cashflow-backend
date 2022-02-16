@@ -25,13 +25,18 @@ const createTransaction = async (req: Request, res: Response, next: NextFunction
   const currentUserId = req.userId
   const { description, amount, type, date }: CreateTransactionDto = req.body
 
+  // DESCRIPTION MUST BE STRING -> MIN 3 MAX 60
+  // AMOUNT -> NUMBER POSITIVE,
+  // TYPE:: EXPENSES OR INCOMES (ENUM)
+  // DATE: DATE
+
   try {
     const transactionData: CreateTransactionDto = {
       description,
       amount,
       type,
-      userId: currentUserId,
-      date: new Date() // TODO able data input
+      date,
+      userId: currentUserId
     }
 
     const newTransaction = await transactionsService.createOne(transactionData)
